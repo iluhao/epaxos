@@ -133,6 +133,7 @@ def analysis_epaxos_logs():
                     file = join(argv[1], f"{param}--client{i}.out")
                     futures.append(executor.submit(get_epaxos_client_statistics_v2, file))
                 futures_res = [f.result() for f in futures if f.result() != {}]
+                print(futures_res)
                 disconnects = int(info["C"][0]) - len(futures_res) # get number of disconnects.
 
             info["totalRequests"] = (info["C"][0] * info["q"][0], "the total number of client requests")
