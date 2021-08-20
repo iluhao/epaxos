@@ -1,4 +1,4 @@
-source ./profile.sh
+source ./base-profile.sh
 
 function prepareRun() {
     for ip in "${ServerIps[@]}"
