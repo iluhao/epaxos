@@ -1,3 +1,4 @@
+source ./base-profile0.sh
 source ./profile0.sh
 
 function prepareRun() {
