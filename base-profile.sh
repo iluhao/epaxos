@@ -1,5 +1,5 @@
-ServerIps=(10.10.1.1 10.10.1.2 10.10.1.3) # 3
-ClientIps=(10.10.1.4)
+ServerIps=(10.10.1.1 10.10.1.3 10.10.1.5) # 3
+ClientIps=(10.10.1.2)
 MasterIp=10.10.1.1
 FirstServerPort=17070 # change it when only necessary (i.e., firewall blocking, port in use)
 NumOfServerInstances=3 # before recompiling, try no more than 5 servers. See Known Issue # 4
