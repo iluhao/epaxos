@@ -1,7 +1,7 @@
 package main
 
 import (
-	"epaxos"
+// 	"epaxos"
 	"flag"
 	"fmt"
 	"gpaxos"
@@ -31,7 +31,7 @@ var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 var thrifty = flag.Bool("thrifty", false, "Use only as many messages as strictly required for inter-replica communication.")
 var exec = flag.Bool("exec", false, "Execute commands.")
 var dreply = flag.Bool("dreply", false, "Reply to client only after command has been executed.")
-var beacon = flag.Bool("beacon", false, "Send beacons to other replicas to compare their relative speeds.")
+// var beacon = flag.Bool("beacon", false, "Send beacons to other replicas to compare their relative speeds.")
 var durable = flag.Bool("durable", false, "Log to a stable store (i.e., a file in the current dir).")
 
 func main() {
@@ -56,9 +56,9 @@ func main() {
 	replicaId, nodeList := registerWithMaster(fmt.Sprintf("%s:%d", *masterAddr, *masterPort))
 
 	if *doEpaxos {
-		log.Println("Starting Egalitarian Paxos replica...")
-		rep := epaxos.NewReplica(replicaId, nodeList, *thrifty, *exec, *dreply, *beacon, *durable)
-		rpc.Register(rep)
+// 		log.Println("Starting Egalitarian Paxos replica...")
+// 		rep := epaxos.NewReplica(replicaId, nodeList, *thrifty, *exec, *dreply, *beacon, *durable)
+// 		rpc.Register(rep)
 	} else if *doMencius {
 		log.Println("Starting Mencius replica...")
 		rep := mencius.NewReplica(replicaId, nodeList, *thrifty, *exec, *dreply, *durable)
