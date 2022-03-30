@@ -143,7 +143,8 @@ function RemoveLogs(){
 function Analysis() {
     sleep 3
 #    cat ${LogFolder}/*.out  # for visual inspection
-    python3.8 analysis_paxos.py ${LogFolder} print-title
+#    python3.8 analysis_paxos.py ${LogFolder} print-title
+    python3.8 analysis.py logs
 }
 
 function Main() {
@@ -172,3 +173,5 @@ wait
 DownloadLogs
 wait
 EpKillAll
+wait
+Analysis
