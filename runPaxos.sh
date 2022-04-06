@@ -4,12 +4,12 @@ source ./base-profile.sh
 function prepareRun() {
     for ip in "${ServerIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "mkdir -p ${LogFolder}; rm -rf ${LogFolder}/*; cd ${EPaxosFolder} && chmod 777 runPaxos.sh" 2>&1
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "mkdir -p ${LogFolder}; rm -rf ${LogFolder}/*; cd ${EPaxosFolder} && chmod 777 runPaxos.sh" 2>&1
         sleep 0.3
     done
     for ip in "${ClientIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "mkdir -p ${LogFolder}; rm -rf ${LogFolder}/*; cd ${EPaxosFolder} && chmod 777 runPaxos.sh" 2>&1
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "mkdir -p ${LogFolder}; rm -rf ${LogFolder}/*; cd ${EPaxosFolder} && chmod 777 runPaxos.sh" 2>&1
         sleep 0.3
     done
     wait
@@ -53,7 +53,7 @@ function runServersAllMachines() {
     MachineIdx=0
     for ip in "${ServerIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "cd ${EPaxosFolder} && EPScriptOption=StartServers EPMachineIdx=${MachineIdx} /bin/bash runPaxos.sh" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "cd ${EPaxosFolder} && EPScriptOption=StartServers EPMachineIdx=${MachineIdx} /bin/bash runPaxos.sh" 2>&1 &
         sleep 0.3
         ((MachineIdx++))
     done
@@ -63,7 +63,7 @@ function runClientsAllMachines() {
     MachineIdx=0
     for ip in "${ClientIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "cd ${EPaxosFolder} && EPScriptOption=StartClients EPMachineIdx=${MachineIdx} /bin/bash runPaxos.sh" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "cd ${EPaxosFolder} && EPScriptOption=StartClients EPMachineIdx=${MachineIdx} /bin/bash runPaxos.sh" 2>&1 &
         sleep 0.3
         ((MachineIdx++))
     done
@@ -78,12 +78,12 @@ function runServersAndClientsAllMachines() {
 function SendEPaxosFolder() {
     for ip in "${ServerIps[@]}"
     do
-        scp -o StrictHostKeyChecking=no -i ${SSHKey} -r ${EPaxosFolder} root@"$ip":~  2>&1 &
+        scp -o StrictHostKeyChecking=no -i ${SSHKey} -r ${EPaxosFolder} ubuntu@"$ip":~  2>&1 &
         sleep 0.3
     done
     for ip in "${ClientIps[@]}"
     do
-        scp -o StrictHostKeyChecking=no -i ${SSHKey} -r ${EPaxosFolder} root@"$ip":~  2>&1 &
+        scp -o StrictHostKeyChecking=no -i ${SSHKey} -r ${EPaxosFolder} ubuntu@"$ip":~  2>&1 &
         sleep 0.3
     done
     wait
@@ -92,19 +92,19 @@ function SendEPaxosFolder() {
 function SSHCheckClientProgress() {
     for ip in "${ClientIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "ps -fe | grep bin/client" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "ps -fe | grep bin/client" 2>&1 &
     done
 }
 
 function EpKillAll() {
     for ip in "${ServerIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "cd ${EPaxosFolder} && chmod 777 kill.sh && /bin/bash kill.sh" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "cd ${EPaxosFolder} && chmod 777 kill.sh && /bin/bash kill.sh" 2>&1 &
         sleep 0.3
     done
     for ip in "${ClientIps[@]}"
     do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "cd ${EPaxosFolder} && chmod 777 kill.sh && /bin/bash kill.sh" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "cd ${EPaxosFolder} && chmod 777 kill.sh && /bin/bash kill.sh" 2>&1 &
         sleep 0.3
     done
     wait
@@ -115,13 +115,13 @@ function DownloadLogs() {
 
 #    for ip in "${ServerIps[@]}"
 #    do
-#        scp -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip":${LogFolder}/*.out ${LogFolder} 2>&1 &
+#        scp -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip":${LogFolder}/*.out ${LogFolder} 2>&1 &
 #        sleep 0.3
 #    done
 
     for ip in "${ClientIps[@]}"
     do
-        scp -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip":${LogFolder}/*.out ${LogFolder} 2>&1 &
+        scp -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip":${LogFolder}/*.out ${LogFolder} 2>&1 &
         sleep 0.3
     done
 }
@@ -129,13 +129,13 @@ function DownloadLogs() {
 function RemoveLogs(){
   for ip in "${ClientIps[@]}"
   do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "rm -rf ${LogFolder}/*" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "rm -rf ${LogFolder}/*" 2>&1 &
         sleep 0.3
   done
 
   for ip in "${ServerIps[@]}"
   do
-        ssh -o StrictHostKeyChecking=no -i ${SSHKey} root@"$ip" "rm -rf ${LogFolder}/*" 2>&1 &
+        ssh -o StrictHostKeyChecking=no -i ${SSHKey} ubuntu@"$ip" "rm -rf ${LogFolder}/*" 2>&1 &
         sleep 0.3
   done
 }
