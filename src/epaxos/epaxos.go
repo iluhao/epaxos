@@ -110,7 +110,7 @@ type LeaderBookkeeping struct {
 	acceptOKs         int
 	nacks             int
 	originalDeps      [DS]int32
-	committedDeps     []int32
+	committedDeps     [DS]int32
 	recoveryInst      *RecoveryInstance
 	preparing         bool
 	tryingToPreAccept bool
@@ -831,14 +831,17 @@ func (r *Replica) startPhase1(replica int32, instance int32, ballot int32, propo
 	}
 
 	seq, deps, _ = r.updateAttributes(cmds, seq, deps, replica, instance)
-
+	var cdeps [DS]int32
+	for q := 0; q < len(cdeps); q++ {
+		cdeps[q] = -1
+	}
 	r.InstanceSpace[r.Id][instance] = &Instance{
 		cmds,
 		ballot,
 		epaxosproto.PREACCEPTED,
 		seq,
 		deps,
-		&LeaderBookkeeping{proposals, 0, 0, true, 0, 0, 0, deps, []int32{-1, -1, -1, -1, -1}, nil, false, false, nil, 0}, 0, 0,
+		&LeaderBookkeeping{proposals, 0, 0, true, 0, 0, 0, deps, cdeps, nil, false, false, nil, 0}, 0, 0,
 		nil}
 
 	r.updateConflicts(cmds, r.Id, instance, seq)
