@@ -173,5 +173,3 @@ wait
 DownloadLogs
 wait
 EpKillAll
-wait
-Analysis
