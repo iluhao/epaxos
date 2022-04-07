@@ -1360,12 +1360,12 @@ func (r *Replica) startRecoveryForInstance(replica int32, instance int32) {
 	var nildeps [DS]int32
 
 	if r.InstanceSpace[replica][instance] == nil {
-		r.InstanceSpace[replica][instance] = &Instance{nil, 0, epaxosproto.NONE, 0, nildeps, nildeps, 0, 0, nil}
+		r.InstanceSpace[replica][instance] = &Instance{nil, 0, epaxosproto.NONE, 0, nildeps, nil, 0, 0, nil}
 	}
 
 	inst := r.InstanceSpace[replica][instance]
 	if inst.lb == nil {
-		inst.lb = &LeaderBookkeeping{nil, -1, 0, false, 0, 0, 0, nildeps, nil, nil, true, false, nil, 0}
+		inst.lb = &LeaderBookkeeping{nil, -1, 0, false, 0, 0, 0, nildeps, nildeps, nil, true, false, nil, 0}
 
 	} else {
 		inst.lb = &LeaderBookkeeping{inst.lb.clientProposals, -1, 0, false, 0, 0, 0, nildeps, nildeps, nil, true, false, nil, 0}
