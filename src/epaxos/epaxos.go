@@ -870,14 +870,15 @@ func (r *Replica) startPhase1(replica int32, instance int32, ballot int32, propo
 		for q := 0; q < r.N; q++ {
 			deps[q] = r.crtInstance[q] - 1
 		}
-
+		
+		var nildeps1 [DS]int32
 		r.InstanceSpace[r.Id][instance] = &Instance{
 			cpMarker,
 			0,
 			epaxosproto.PREACCEPTED,
 			r.maxSeq,
 			deps,
-			&LeaderBookkeeping{nil, 0, 0, true, 0, 0, 0, deps, nil, nil, false, false, nil, 0},
+			&LeaderBookkeeping{nil, 0, 0, true, 0, 0, 0, deps, nildeps1, nil, false, false, nil, 0},
 			0,
 			0,
 			nil}
@@ -1359,7 +1360,7 @@ func (r *Replica) startRecoveryForInstance(replica int32, instance int32) {
 	var nildeps [DS]int32
 
 	if r.InstanceSpace[replica][instance] == nil {
-		r.InstanceSpace[replica][instance] = &Instance{nil, 0, epaxosproto.NONE, 0, nildeps, nil, 0, 0, nil}
+		r.InstanceSpace[replica][instance] = &Instance{nil, 0, epaxosproto.NONE, 0, nildeps, nildeps, 0, 0, nil}
 	}
 
 	inst := r.InstanceSpace[replica][instance]
@@ -1367,7 +1368,7 @@ func (r *Replica) startRecoveryForInstance(replica int32, instance int32) {
 		inst.lb = &LeaderBookkeeping{nil, -1, 0, false, 0, 0, 0, nildeps, nil, nil, true, false, nil, 0}
 
 	} else {
-		inst.lb = &LeaderBookkeeping{inst.lb.clientProposals, -1, 0, false, 0, 0, 0, nildeps, nil, nil, true, false, nil, 0}
+		inst.lb = &LeaderBookkeeping{inst.lb.clientProposals, -1, 0, false, 0, 0, 0, nildeps, nildeps, nil, true, false, nil, 0}
 	}
 
 	if inst.Status == epaxosproto.ACCEPTED {
