@@ -20,6 +20,7 @@ function runMaster() {
 }
 
 function runServersOneMachine() {
+    ulimit -n 65536
     for idx in $(seq 0 $(($NumOfServerInstances - 1)))
     do
         svrIpIdx=$((idx % ${#ServerIps[@]}))
